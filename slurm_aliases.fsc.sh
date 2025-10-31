@@ -47,7 +47,7 @@ alias sq="squeue -o '%.7i %.12u %.10P %.25j %.4t %.10M %.6D %.10b %S %R' --sort=
 # Show only my jobs, with a line number, CPU count, and GPU count.
 alias sqme="squeue -u $USER -o '%.7i %.12P %.25j %.4t %.10M %.6D %.4C %.10b %R' | nl -v 0"
 
-QOS=<TODO>
+QOS=h200_maestro_high
 
 # Function to show jobs in a specific partition. Usage: sqp <partition_name>
 sqp() {
@@ -517,6 +517,56 @@ my-jobs-detailed() {
     echo "--- Your Jobs (Detailed) ---"
     squeue -u $USER -o "%.7i %.12P %.25j %.4t %.10M %.6D %.10Q %R" | head -1 && \
     squeue -u $USER -o "%.7i %.12P %.25j %.4t %.10M %.6D %.10Q %R" | awk 'NR > 1'
+}
+
+# Show usage vs limits for a specific QoS (default: $QOS). Usage: qos-usage [qos]
+qos-usage() {
+    local qos=${1:-$QOS}
+    if [[ -z "$qos" ]]; then
+        echo "Usage: qos-usage [qos]"
+        return 1
+    fi
+
+    echo "--- QoS Usage: ${qos} ---"
+
+    # Fetch QoS limits
+    local grp=$(sacctmgr -np show qos where name=${qos} format=GrpTRES 2>/dev/null | awk -F'|' 'NR==1{print $1}')
+    local limit_gpu=$(echo "$grp" | awk -F',' '{for(i=1;i<=NF;i++){if($i~"gres/gpu="){split($i,a,"=");print a[2]; exit}}}')
+    local limit_cpu=$(echo "$grp" | awk -F',' '{for(i=1;i<=NF;i++){if($i~"cpu="){split($i,a,"=");print a[2]; exit}}}')
+
+    # Current usage (RUNNING jobs only) — robustly sum GPUs from AllocTRES via scontrol
+    local allocated=$(
+        jobids=$(squeue --qos=${qos} -h -t RUNNING -o "%i" 2>/dev/null);
+        used_gpu=0; used_cpu=0;
+        for jid in $jobids; do
+            line=$(scontrol show job -o "$jid" 2>/dev/null)
+            # GPUs from AllocTRES (total per job)
+            atres=$(echo "$line" | grep -o 'AllocTRES=[^ ]*' | sed 's/AllocTRES=//')
+            g=$(echo "$atres" | awk -F',' '{for(i=1;i<=NF;i++){if($i~"^gres/gpu="){split($i,a,"="); print a[2]; exit}}}')
+            if [[ -z "$g" ]]; then
+                g=$(echo "$line" | grep -o 'TresPerNode=gres/gpu:[0-9]*' | sed 's/.*://')
+            fi
+            # CPUs from squeue (faster, reliable)
+            c=$(squeue -h -j "$jid" -o "%C" 2>/dev/null)
+            used_gpu=$((used_gpu + ${g:-0}))
+            used_cpu=$((used_cpu + ${c:-0}))
+        done
+        printf "%d %d" "$used_gpu" "$used_cpu"
+    )
+    local used_gpu=$(echo "$allocated" | awk '{print $1}')
+    local used_cpu=$(echo "$allocated" | awk '{print $2}')
+
+    local free_gpu="N/A"; local free_cpu="N/A"
+    if [[ -n "$limit_gpu" ]]; then free_gpu=$((limit_gpu - used_gpu)); fi
+    if [[ -n "$limit_cpu" ]]; then free_cpu=$((limit_cpu - used_cpu)); fi
+
+    printf "%-14s | %s\n" "Limit GPUs" "${limit_gpu:-N/A}"
+    printf "%-14s | %s\n" "Used GPUs"  "${used_gpu:-0}"
+    printf "%-14s | %s\n" "Free GPUs"  "${free_gpu}"
+    echo "------------------------------"
+    printf "%-14s | %s\n" "Limit CPUs" "${limit_cpu:-N/A}"
+    printf "%-14s | %s\n" "Used CPUs"  "${used_cpu:-0}"
+    printf "%-14s | %s\n" "Free CPUs"  "${free_cpu}"
 }
 
 # ==============================================================================
