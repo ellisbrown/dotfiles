@@ -83,7 +83,7 @@ alias muf="mamba env update --file"
 #######################################
 
 # wait for some specified amount of time
-wait() {
+wait_for() {
     python ~/config/wait.py "$@"
 }
 
