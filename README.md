@@ -1,76 +1,71 @@
-# .config
+# dotfiles
 
-## setup
-0. basic machine setup
-    1. install `zsh`
-        ```bash
-        sudo apt install zsh
-        ```
-    2. install `ohmyzsh` 
-        ```bash
-        sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
-        ```
-        - change theme to `agnoster`
-    3. (alternatively, install `oh-by-bash`)
-        ```bash
-        bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
-        ```
-    4. install [miniforge](https://github.com/conda-forge/miniforge)
-        ```bash
-        curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
-        bash Miniforge3-$(uname)-$(uname -m).sh
-        ```
-    5. git creds
-        1. intall brew
-            ```bash
-            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-            echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/ebrown/.zprofile
-            eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-            sudo apt-get install build-essential
-            ```
-        2. install github cli
-            ```bash
-            brew install gh
-            ```
-        3. login
-            ```bash
-            gh auth login
-            ```
+Personal dotfiles for ML/AI research across macOS and Linux Slurm clusters.
 
-1. clone
-    ```bash
-    git clone https://github.com/ellisbrown/config.git ~/config
-    ```
+## Quick Start
 
-2. setup
-    ```
-    bash ~/config/aliases_init.sh
-    source ~/.zshrc
-    source ~/.bashrc
-    ```
-
-## .bashrc / .zshrc
-
-### aliases
 ```bash
-
-# https://askubuntu.com/a/195357
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
-fi
-
+git clone https://github.com/ellisbrown/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+bash install.sh
+source ~/.zshrc  # or source ~/.bashrc
 ```
 
-symlink to aliases
+`install.sh` symlinks configs to the right places, detects your platform (Ghostty is Mac-only), and sets up shell RC files. Safe to run multiple times.
+
+## What's Included
+
+| Directory | What |
+|---|---|
+| `shell/` | Aliases, readline config, localrc template |
+| `slurm/` | Slurm aliases for FSC and Grogu clusters |
+| `vim/` | Vim configuration |
+| `tmux/` | Tmux configuration |
+| `ghostty/` | Ghostty terminal config (Mac) |
+| `gdb/` | GDB-GEF config |
+| `bin/` | Utility scripts |
+
+## Mac Setup
+
+On a fresh Mac, install Homebrew then use the Brewfile:
+
 ```bash
-ln -s ~/config/aliases ~/.aliases
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew bundle
 ```
 
-symlink to configs
-```bash
-# tmux
-ln -s ~/config/tmux.conf ~/.tmux.conf
+## Linux / Cluster Setup
 
-# gdb
-ln -s ~/config/gdbinit ~/.gdbinit
+Prerequisites (install what's available — none are strictly required):
+
+```bash
+# zsh (if you have sudo)
+sudo apt install zsh
+
+# oh-my-zsh
+sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+
+# miniforge (conda/mamba without sudo)
+curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+bash Miniforge3-$(uname)-$(uname -m).sh
+```
+
+Then run the [Quick Start](#quick-start) steps above.
+
+## Machine-Specific Config
+
+Create `~/.localrc` for settings that shouldn't be in git (API keys, project aliases):
+
+```bash
+cp ~/dotfiles/shell/localrc.example ~/.localrc
+# edit with your settings
+```
+
+This is sourced last, so it can override anything.
+
+## Updating
+
+```bash
+cd ~/dotfiles && git pull
+rsc   # reload shell
 ```
