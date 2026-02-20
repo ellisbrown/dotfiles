@@ -1,0 +1,52 @@
+# Synced git config — quality-of-life settings only.
+# Machine-specific settings (user.name, user.email, credentials)
+# belong in ~/.localrc or ~/.gitconfig.local
+
+[alias]
+    s  = status -s
+    d  = diff
+    ds = diff --staged
+    lg = log --oneline --graph --decorate -20
+    la = log --oneline --graph --decorate --all -30
+    co = checkout
+    cb = checkout -b
+    aa = add --all
+    cm = commit -m
+    ca = commit --amend
+    p  = pull --rebase
+    pf = push --force-with-lease
+    br = branch --sort=-committerdate
+    # search commits by message
+    fm = "!f() { git log --oneline --grep=\"$1\"; }; f"
+    # search commits by code change
+    fc = "!f() { git log --oneline -S\"$1\"; }; f"
+    # stash shortcuts
+    sl = stash list
+    sp = stash pop
+    ss = stash push -m
+
+[core]
+    excludesfile = ~/.gitignore_global
+    pager = less -FRX
+
+[init]
+    defaultBranch = main
+
+[pull]
+    rebase = true
+
+[push]
+    default = current
+    autoSetupRemote = true
+
+[diff]
+    colorMoved = default
+
+[merge]
+    conflictStyle = diff3
+
+[rebase]
+    autoStash = true
+
+[url "git@github.com:"]
+    insteadOf = "gh:"

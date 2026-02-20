@@ -91,6 +91,7 @@ link_file "$DOTFILES/shell/inputrc"    "$HOME/.inputrc"
 link_file "$DOTFILES/vim/vimrc"        "$HOME/.vimrc"
 link_file "$DOTFILES/tmux/tmux.conf"   "$HOME/.tmux.conf"
 link_file "$DOTFILES/gdb/gdbinit"      "$HOME/.gdbinit"
+link_file "$DOTFILES/git/gitconfig"    "$HOME/.gitconfig"
 
 # macOS-only configs
 if [ "$(uname -s)" = "Darwin" ]; then
