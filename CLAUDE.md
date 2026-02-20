@@ -4,32 +4,37 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-A personal dotfiles repository for a GPU-cluster-oriented ML/AI research workflow. Organized into topic directories, bootstrapped by `install.sh`, which symlinks config files and appends source lines into `~/.zshrc` and `~/.bashrc`. Works on both macOS (laptop) and Linux Slurm clusters (no sudo required).
+A personal dotfiles repository for a GPU-cluster-oriented ML/AI research workflow. Organized into topic directories, bootstrapped by `install.sh` (symlinks) or `setup.sh` (full Mac setup including Homebrew). Works on both macOS (laptop) and Linux Slurm clusters (no sudo required). Compatible with oh-my-zsh and oh-my-bash.
 
 ## Setup & Testing
 
 ```bash
+# Full setup (Mac — installs Homebrew + packages + symlinks)
 git clone https://github.com/ellisbrown/dotfiles.git ~/dotfiles
+bash ~/dotfiles/setup.sh
+
+# Minimal setup (clusters — symlinks only, no dependencies)
 bash ~/dotfiles/install.sh
-source ~/.zshrc  # or source ~/.bashrc
-```
 
-There is no build system, test suite, or package manager. Changes are tested by re-sourcing:
-
-```bash
+# Reload after changes
 source ~/.aliases     # reload aliases directly
 rsc                   # shortcut: re-sources ~/.zshrc or ~/.bashrc based on $SHELL
 ```
+
+There is no build system or test suite. Changes are tested by re-sourcing.
 
 ## Directory Structure
 
 ```
 ~/dotfiles/
-├── install.sh              # Bootstrap: creates symlinks, configures shell RC files
+├── setup.sh                # Full Mac setup: brew + install.sh
+├── install.sh              # Symlinks + shell RC configuration
+├── Brewfile                # Declarative Mac packages (brew bundle)
 ├── shell/
 │   ├── aliases             # Primary shell aliases/functions — main entry point
 │   ├── inputrc             # Readline config (tab completion, history search)
 │   └── localrc.example     # Template for ~/.localrc (machine-specific, not in git)
+├── git/gitconfig           # Git aliases and settings (no credentials)
 ├── slurm/
 │   ├── slurm_aliases.sh    # Router — sources the active cluster's config
 │   ├── slurm_aliases.fsc.sh    # FSC cluster (H200 GPUs, h200_maestro_high QOS)
@@ -47,6 +52,7 @@ Symlinks created by `install.sh`:
 |---|---|
 | `shell/aliases` | `~/.aliases` |
 | `shell/inputrc` | `~/.inputrc` |
+| `git/gitconfig` | `~/.gitconfig` |
 | `vim/vimrc` | `~/.vimrc` |
 | `tmux/tmux.conf` | `~/.tmux.conf` |
 | `gdb/gdbinit` | `~/.gdbinit` |
@@ -58,7 +64,16 @@ Symlinks created by `install.sh`:
 
 The `$DOTFILES` environment variable (set in shell RC files by `install.sh`) points to the repo root. All internal `source` commands use `$DOTFILES` for path resolution, defaulting to `$HOME/dotfiles`.
 
-The `shell/aliases` file is the main entry point. It defines general-purpose shell functions (tmux, git, rsync, conda/mamba, nvidia), sources Slurm aliases, and finally sources `~/.localrc` for machine-specific overrides.
+The `shell/aliases` file is the main entry point, organized in this order:
+1. Shell helpers (`rsc`)
+2. Core aliases (tmux, shell ops, nvidia)
+3. **Modern CLI upgrades** — conditional aliases for eza, bat, fd, ripgrep that only activate if installed (`command -v` guard). Safe on clusters.
+4. Git helpers (SSH/HTTPS toggle)
+5. Rsync, conda/mamba aliases
+6. **fzf integration** — Ctrl+R/Ctrl+T/Alt+C keybindings, conditional on fzf being installed. Uses fd as backend when available.
+7. Python utilities
+8. Slurm sourcing
+9. `~/.localrc` (last — can override anything)
 
 The Slurm router (`slurm/slurm_aliases.sh`) sources exactly one cluster-specific file — toggle by commenting/uncommenting lines (currently FSC is active).
 
@@ -75,8 +90,10 @@ The FSC Slurm file (`slurm/slurm_aliases.fsc.sh`) is the largest component (~664
 ## Key Conventions
 
 - The `$DOTFILES` variable is used in all cross-file `source` commands. Defaults to `$HOME/dotfiles`.
+- **Conditional tool aliases**: Modern CLI replacements (eza, bat, fd, rg, fzf) are guarded by `command -v` checks. They activate automatically wherever the tool is installed and silently skip otherwise. This is the pattern to follow when adding new tool aliases.
 - The `QOS` variable in `slurm_aliases.fsc.sh` (currently `h200_maestro_high`) is referenced by `sinteractive` and the `sdev-*` shortcuts. `sinteractive` defaults: 1 GPU, 48 CPUs/GPU, 80 GB mem/GPU, 1 hour.
 - The `body()` helper (defined in both FSC and Grogu files) preserves header lines when piping sorted output — used extensively with `sinfo`/`squeue` pipes.
 - `~/.localrc` (not in git) is sourced last for machine-specific overrides (API keys, project aliases, custom QOS). See `shell/localrc.example` for the template.
+- `git/gitconfig` contains only QOL settings (aliases, rebase-on-pull, URL shorthands). Credentials and `user.name`/`user.email` belong in `~/.localrc` or `~/.gitconfig.local`.
 - Platform-specific configs (e.g., Ghostty) are only symlinked on the relevant platform — `install.sh` handles this with `uname` detection.
-- Shell functions use POSIX-compatible patterns where possible but rely on bash/zsh features (e.g., `[[ ]]`, `read -r`) for interactive prompts.
+- **Adding a new config**: Create a topic directory, add the config file, add a `link_file` line to `install.sh`, and update the symlink table above.
