@@ -70,9 +70,9 @@ if command -v fd &>/dev/null; then
     alias ff="fd"
 fi
 
-# ripgrep -> grep (faster, .gitignore-aware)
+# ripgrep (faster grep, .gitignore-aware — use `rg` directly, don't shadow grep)
 if command -v rg &>/dev/null; then
-    alias grep="rg"
+    alias rgrep="rg"
 fi
 
 
