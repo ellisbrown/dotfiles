@@ -380,7 +380,7 @@ my-usage() {
                 }
             }
         }
-        END { print total }
+        END { print total+0 }
     ')
     
     printf "Running jobs: %d\n" "$running_jobs"
@@ -408,13 +408,25 @@ my-efficiency() {
 
 # Show jobs that are likely stuck or problematic
 stuck-jobs() {
-    echo "--- Potentially Stuck Jobs ---"
+    echo "--- Potentially Stuck Jobs (pending > 60 min) ---"
     squeue -t PENDING -o "%.7i %.12u %.10P %.25j %.4t %.10M %.6D %R" | awk '
         NR > 1 {
-            if ($5 ~ /^[0-9]+$/) {
-                if ($5 > 60) {  # Pending for more than 60 minutes
-                    printf "Job %s (user: %s, partition: %s) pending for %s minutes\n", $1, $2, $3, $5;
-                }
+            # Parse TIME field (format: D-HH:MM:SS, HH:MM:SS, or MM:SS)
+            time_str = $6;
+            minutes = 0;
+            if (time_str ~ /-/) {
+                split(time_str, dp, "-");
+                minutes += dp[1] * 24 * 60;
+                time_str = dp[2];
+            }
+            n = split(time_str, tp, ":");
+            if (n == 3) {
+                minutes += tp[1] * 60 + tp[2];
+            } else if (n == 2) {
+                minutes += tp[1];
+            }
+            if (minutes > 60) {
+                printf "Job %s (user: %s, partition: %s) pending for %s\n", $1, $2, $3, $6;
             }
         }
     '
@@ -606,11 +618,11 @@ sdev_tmux_ssh() {
     local cpus_per_gpu=48
     local mem_per_gpu=186
     local hours=168
-
+    local qos="$QOS"
 
     usage () {
         echo "Usage: sdev_tmux_ssh <session_name> [--gpus=N] [--cpus=N] [--mem=N] [--hours=N] [--qos=QOS]"
-        echo "Defaults: --gpus=1 --cpus=48 --mem=186 --hours=168 (7 days) --qos=h200_maestro_high"
+        echo "Defaults: --gpus=1 --cpus=48 --mem=186 --hours=168 (7 days) --qos=$QOS"
         echo "Example: sdev_tmux_ssh ssh4 --gpus=4 --cpus=8 --mem=80 --hours=168 --qos=h200_maestro_high"
     }
 
