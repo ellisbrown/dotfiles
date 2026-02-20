@@ -1,6 +1,11 @@
 import time
 import argparse
-from tqdm import tqdm
+
+try:
+    from tqdm import tqdm
+except ImportError:
+    def tqdm(iterable, **kwargs):
+        return iterable
 
 parser = argparse.ArgumentParser(description='Delay for a given time')
 parser.add_argument('-H', '--hours', type=int, default=0, help='hours')
