@@ -5,7 +5,7 @@ background-blur=16
 
 # theme
 # theme=Argonaut
-theme = Firefly Traditional
+# theme = Firefly Traditional
 # theme = Github Dark Default
 # theme = Monokai Remastered
 # theme = Synthwave
@@ -14,6 +14,7 @@ theme = Firefly Traditional
 # theme = dark:Catppuccin Frappe,light:Catppuccin Latte
 # theme = dark:Github Dark Default,light:Github Light Default
 # theme = dark:Github Dark Default,light:Primary
+theme = dark:Firefly Traditional,light:Primary
 # light: Primary
 
 
