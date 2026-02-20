@@ -55,14 +55,9 @@ if command -v bat &>/dev/null; then
     alias catp="bat"               # bat with pager
 fi
 
-# fd -> find (simpler syntax, respects .gitignore)
+# fd (simpler find, respects .gitignore)
 if command -v fd &>/dev/null; then
-    alias find="fd"
-fi
-
-# ripgrep -> grep (faster, respects .gitignore)
-if command -v rg &>/dev/null; then
-    alias grep="rg"
+    alias ff="fd"
 fi
 
 
@@ -122,7 +117,7 @@ if command -v fzf &>/dev/null; then
         source ~/.fzf.bash
     else
         # Homebrew fzf installs keybindings here
-        local fzf_base="${HOMEBREW_PREFIX:-/opt/homebrew}/opt/fzf"
+        fzf_base="${HOMEBREW_PREFIX:-/opt/homebrew}/opt/fzf"
         if [[ -d "$fzf_base" ]]; then
             [[ $- == *i* ]] && source "$fzf_base/shell/completion.${SHELL##*/}" 2>/dev/null
             source "$fzf_base/shell/key-bindings.${SHELL##*/}" 2>/dev/null
@@ -151,7 +146,9 @@ wait_for() {
 ### SLURM #############################
 #######################################
 
-source "$DOTFILES/slurm/slurm_aliases.sh"
+if command -v sinfo &>/dev/null || command -v srun &>/dev/null; then
+    source "$DOTFILES/slurm/slurm_aliases.sh"
+fi
 
 
 #######################################
