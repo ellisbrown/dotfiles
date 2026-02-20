@@ -1,0 +1,25 @@
+# ~/.localrc — Machine-specific config (not checked into git)
+#
+# Setup:
+#   cp ~/dotfiles/shell/localrc.example ~/.localrc
+#   # edit ~/.localrc with your settings
+#   rsc   # reload shell
+#
+# This file is sourced at the end of ~/.aliases, so it can override
+# any alias or function defined there.
+
+# --- API Keys / Tokens ---
+# export WANDB_API_KEY=...
+# export HF_TOKEN=...
+# export OPENAI_API_KEY=...
+
+# --- Cluster / Account ---
+# export SLURM_ACCOUNT=my_account
+# export QOS=my_custom_qos
+
+# --- Project shortcuts ---
+# alias proj="cd /path/to/my/project"
+# alias act="conda activate myenv"
+
+# --- Machine-specific PATH ---
+# export PATH="$HOME/.local/bin:$PATH"

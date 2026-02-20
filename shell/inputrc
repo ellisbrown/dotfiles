@@ -1,0 +1,33 @@
+# Readline configuration
+# Sourced automatically by bash (and any readline-based program)
+
+# Case-insensitive tab completion
+set completion-ignore-case on
+
+# Treat hyphens and underscores as equivalent for completion
+set completion-map-case on
+
+# Show all matches at once if there are multiple (no double-tab)
+set show-all-if-ambiguous on
+
+# Append a character to indicate file type (like ls -F)
+set visible-stats on
+
+# Color files by type during completion (like ls --color)
+set colored-stats on
+
+# Color the common prefix in completions
+set colored-completion-prefix on
+
+# Don't autocomplete hidden files unless the pattern starts with a dot
+set match-hidden-files off
+
+# Prefix-based history search with up/down arrows
+# Type a partial command, then press up/down to search history
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# UTF-8 support
+set input-meta on
+set output-meta on
+set convert-meta off

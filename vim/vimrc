@@ -1,0 +1,49 @@
+" UI
+syntax on
+set number
+set scrolloff=5
+set sidescrolloff=5
+set signcolumn=yes " Shows partial command keys in the bottom right
+set showmode
+set laststatus=2
+set list
+set listchars=tab:»·,trail:·,nbsp:␣
+set splitright
+set splitbelow
+set wildmenu
+set wildmode=longest:full,full
+
+" Indentation
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab " use spaces instead of tabs.
+set smarttab " let's tab key insert 'tab stops', and bksp deletes tabs.
+set shiftround " tab / shifting moves to closest tabstop.
+set autoindent " Match indents on new lines.
+set smartindent " Intellegently dedent / indent new lines based on rules.
+
+" Make search more sane
+set ignorecase " case insensitive search
+set smartcase " If there are uppercase letters, become case-sensitive.
+set incsearch " live incremental searching
+set showmatch " live match highlighting
+set hlsearch " highlight matches
+
+" Use sane regex's when searching
+nnoremap / /\v
+vnoremap / /\v
+
+" allow the cursor to go anywhere in visual block mode.
+set virtualedit+=block
+set mouse=a
+
+set cursorline
+set history=1000
+
+
+" Clipboard + Undo
+set clipboard=unnamedplus
+set undofile
+set undodir=~/.vim/undo//
+
