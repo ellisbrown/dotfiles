@@ -53,7 +53,7 @@ These activate automatically if the tool is installed (via `brew bundle` on Mac 
 
 | Key | What it does |
 |---|---|
-| `Ctrl+T` | Split vertical |
+| `Ctrl+B` | Split vertical |
 | `Ctrl+U` | Split horizontal |
 | `Shift+Arrow` | Switch panes |
 | `PageUp/Down` | Switch windows |
