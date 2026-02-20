@@ -8,7 +8,9 @@ colorscheme desert
 set number
 set scrolloff=5
 set sidescrolloff=5
-set signcolumn=yes " Always show sign column (gutter for marks/diagnostics)
+if v:version >= 800
+    set signcolumn=yes " Always show sign column (gutter for marks/diagnostics)
+endif
 set showcmd
 set showmode
 set laststatus=2
