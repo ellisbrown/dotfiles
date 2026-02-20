@@ -12,6 +12,7 @@ brew "curl"
 brew "tree"
 brew "htop"
 brew "jq"
+brew "zstd"            # fast compression (zstd / unzstd)
 
 # Better CLI defaults
 brew "ripgrep"         # faster grep (rg)
@@ -21,7 +22,7 @@ brew "bat"             # better cat with syntax highlighting
 brew "eza"             # better ls
 
 # Python / ML
-brew "miniforge"       # conda without Anaconda bloat
+cask "miniforge"       # conda without Anaconda bloat
 
 # Terminal
 cask "ghostty"
