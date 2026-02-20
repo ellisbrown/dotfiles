@@ -117,13 +117,16 @@ fi'
 
 add_to_rc() {
     local rc_file="$1"
-    if [ -f "$rc_file" ]; then
-        if ! grep -qF 'export DOTFILES=' "$rc_file" 2>/dev/null; then
-            echo "$dotfiles_block" >> "$rc_file"
-            ok "Added dotfiles sourcing to $rc_file"
-        else
-            ok "Already configured in $rc_file"
-        fi
+    # Create the RC file if it doesn't exist (e.g., fresh cluster nodes)
+    if [ ! -f "$rc_file" ]; then
+        touch "$rc_file"
+        ok "Created $rc_file"
+    fi
+    if ! grep -qF 'export DOTFILES=' "$rc_file" 2>/dev/null; then
+        echo "$dotfiles_block" >> "$rc_file"
+        ok "Added dotfiles sourcing to $rc_file"
+    else
+        ok "Already configured in $rc_file"
     fi
 }
 
