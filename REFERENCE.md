@@ -25,8 +25,7 @@ These activate automatically if the tool is installed (via `brew bundle` on Mac 
 | `lt` | eza -laT --level=2 | tree | Tree view |
 | `cat` | bat --paging=never | cat | Syntax highlighting |
 | `catp` | bat | less | Syntax-highlighted pager |
-| `find` | fd | find | Simpler syntax, respects `.gitignore` |
-| `grep` | rg | grep | Faster, respects `.gitignore` |
+| `ff` | fd | — | Simpler find, respects `.gitignore` |
 
 ## fzf (Fuzzy Finder)
 
@@ -165,12 +164,12 @@ sinteractive -h            # full help
 
 ### Quick Dev Sessions
 
-| Command | GPUs | CPUs | Time |
-|---|---|---|---|
-| `sdev-gpu-x1` | 1 | 48 | 24h |
-| `sdev-gpu-x4` | 4 | 192 | 24h |
-| `sdev-gpu-x8` | 8 | 384 | 24h |
-| `sdev-cpu-x24` | 0 | 24 | 24h |
+| Command | GPUs | CPUs | Mem | Time |
+|---|---|---|---|---|
+| `sdev-gpu-x1` | 1 | 16 | 186G | 7d |
+| `sdev-gpu-x4` | 4 | 16 | 186G | 7d |
+| `sdev-gpu-x8` | 8 | 16 | 186G | 7d |
+| `sdev-cpu-x24` | 0 | 24 | 186G | 7d |
 
 ### Watch (auto-refreshing)
 

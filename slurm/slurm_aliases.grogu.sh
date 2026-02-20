@@ -1,6 +1,6 @@
 #!/bin/bash
 
-courtesy of alex li =>
+# courtesy of alex li
 
 # GROGU
 body() {
@@ -14,7 +14,7 @@ alias si="sinfo --Node -O Partition:14,NodeList:15,StateLong:12,GresUsed:30,Gres
 alias sig="sinfo --Node -O Partition:14,NodeList:15,StateLong:12,GresUsed:30,Gres,FreeMem:12,CPUsState:20 | grep 'long\|NODELIST' | body sort | grep 'GRES_USED\|rtx3090\|rtx6000\|A5000\|A6000'"
 alias sime="sinfo --Node -O Partition:14,NodeList:15,StateLong:12,GresUsed:30,Gres,FreeMem:12,CPUsState:20 | grep 'deepaklong\|NODELIST' | body sort"
 alias sq="squeue --sort=\"P,U,t,-p\" -o \"%6i %36j %4t %10u %10q %12P %10Q %5D %11l %11L %16R %8b %5C %m\""
-alias sqme="squeue -o \"%6i %50j %4t %10u %10q %12P %10Q %5D %11l %11L %16R %8b %5C %m\" -u elbrown | nl -v 0"
+alias sqme="squeue -o \"%6i %50j %4t %10u %10q %12P %10Q %5D %11l %11L %16R %8b %5C %m\" -u $USER | nl -v 0"
 alias sqd="squeue --sort=\"U,t,-p\" -o \"%6i %36j %4t %10u %10q %12P %10Q %5D %11l %11L %16R %8b %5C %m\" | body grep '0-19 \|1-19 \|1-40 \|1-3 \|0-24 \|deepak'"
 alias sc="scontrol show node"
 

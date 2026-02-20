@@ -84,7 +84,7 @@ sinteractive() {
         echo
         echo "Options:"
         echo "  -g GPUS         Number of GPUs to request (default: 1). If 0, runs on 'cpu' partition."
-        echo "  -c CPUS         Total number of CPUs to request (default: 8 per GPU)."
+        echo "  -c CPUS         CPUs per GPU (default: 48)."
         echo "  -m MEM          Total memory in GB (e.g., 80, 160G) (default: 80G per GPU)."
         echo "  -t TIME         Job time limit, e.g., 0-08:00:00 or 08:00:00 (default: 01:00:00)."
         # echo "  -p PARTITION    Force a specific partition (e.g., cpu)."
@@ -610,7 +610,7 @@ sdev_tmux_ssh() {
 
     usage () {
         echo "Usage: sdev_tmux_ssh <session_name> [--gpus=N] [--cpus=N] [--mem=N] [--hours=N] [--qos=QOS]"
-        echo "Defaults: --gpus=1 --cpus=8 --mem=80 --hours=168 (7 days) --qos=h200_maestro_high"
+        echo "Defaults: --gpus=1 --cpus=48 --mem=186 --hours=168 (7 days) --qos=h200_maestro_high"
         echo "Example: sdev_tmux_ssh ssh4 --gpus=4 --cpus=8 --mem=80 --hours=168 --qos=h200_maestro_high"
     }
 
