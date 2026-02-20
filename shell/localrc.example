@@ -13,6 +13,10 @@
 # export HF_TOKEN=...
 # export OPENAI_API_KEY=...
 
+# --- Git identity (if not using ~/.gitconfig.local) ---
+# git config --global user.name "Your Name"
+# git config --global user.email "you@example.com"
+
 # --- Cluster / Account ---
 # export SLURM_ACCOUNT=my_account
 # export QOS=my_custom_qos

@@ -1,0 +1,35 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor swap / backup files
+*.swp
+*.swo
+*~
+\#*\#
+.\#*
+
+# JetBrains IDEs
+.idea/
+
+# VS Code
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+*.egg
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment / secrets
+.env
+.env.local
+
+# Virtual environments
+.venv/
+venv/

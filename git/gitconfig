@@ -50,3 +50,9 @@
 
 [url "git@github.com:"]
     insteadOf = "gh:"
+
+[include]
+    path = ~/.gitconfig.local
+
+[fetch]
+    prune = true
