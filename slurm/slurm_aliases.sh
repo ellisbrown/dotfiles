@@ -2,8 +2,6 @@
 
 DOTFILES="${DOTFILES:-$HOME/dotfiles}"
 
-# # grogu
-# source "$DOTFILES/slurm/slurm_aliases.grogu.sh"
-
-# fsc
-source "$DOTFILES/slurm/slurm_aliases.fsc.sh"
+# Set DOTFILES_CLUSTER in ~/.localrc to switch clusters (default: fsc)
+cluster="${DOTFILES_CLUSTER:-fsc}"
+source "$DOTFILES/slurm/slurm_aliases.${cluster}.sh"
