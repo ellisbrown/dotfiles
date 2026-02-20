@@ -1,10 +1,10 @@
 # aesthetics
 background-opacity = 0.85
-background-blur=16
-# background=#000000
+background-blur = 16
+# background = #000000
 
 # theme
-# theme=Argonaut
+# theme = Argonaut
 # theme = Firefly Traditional
 # theme = Github Dark Default
 # theme = Monokai Remastered
@@ -15,11 +15,9 @@ background-blur=16
 # theme = dark:Github Dark Default,light:Github Light Default
 # theme = dark:Github Dark Default,light:Primary
 theme = dark:Firefly Traditional,light:Primary
-# light: Primary
-
 
 # typography
-font-size=14
-font-thicken=true
-font-thicken-strength=1
-adjust-cell-height=1
+font-size = 14
+font-thicken = true
+font-thicken-strength = 1
+adjust-cell-height = 1
