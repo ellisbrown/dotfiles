@@ -9,7 +9,11 @@ Cheat sheet for all aliases and keybindings defined in this dotfiles repo.
 | `rsc` | Reload shell config (sources `~/.zshrc` or `~/.bashrc`) |
 | `sp` | Show disk usage of current directory, sorted by size |
 | `spd` | Same as `sp` but includes dotfiles |
+| `susp` | Same as `sp` with sudo |
 | `count` | Count files in current directory |
+| `countall` | Count all files recursively |
+| `kys` | Kill all processes of current user (with confirmation) |
+| `sv` | Launch snakeviz profiler on port 8081 |
 | `setcuda N` | Set `CUDA_VISIBLE_DEVICES=N` |
 | `ns` | Watch `nvidia-smi` (refreshes every 0.5s) |
 | `wait_for -H 1 -M 30` | Sleep with progress bar (hours/minutes/seconds) |
@@ -26,6 +30,7 @@ These activate automatically if the tool is installed (via `brew bundle` on Mac 
 | `cat` | bat --paging=never | cat | Syntax highlighting |
 | `catp` | bat | less | Syntax-highlighted pager |
 | `ff` | fd | — | Simpler find, respects `.gitignore` |
+| `rgrep` | rg | — | Faster grep, respects `.gitignore` |
 
 ## fzf (Fuzzy Finder)
 

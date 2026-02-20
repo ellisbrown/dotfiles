@@ -18,7 +18,7 @@ bash ~/dotfiles/install.sh
 
 # Reload after changes
 source ~/.aliases     # reload aliases directly
-rsc                   # shortcut: re-sources ~/.zshrc or ~/.bashrc based on $SHELL
+rsc                   # shortcut: re-sources ~/.zshrc or ~/.bashrc (detects running shell)
 ```
 
 There is no build system or test suite. Changes are tested by re-sourcing.
@@ -34,7 +34,9 @@ There is no build system or test suite. Changes are tested by re-sourcing.
 │   ├── aliases             # Primary shell aliases/functions — main entry point
 │   ├── inputrc             # Readline config (tab completion, history search)
 │   └── localrc.example     # Template for ~/.localrc (machine-specific, not in git)
-├── git/gitconfig           # Git aliases and settings (no credentials)
+├── git/
+│   ├── gitconfig           # Git aliases and settings (no credentials)
+│   └── gitignore_global    # Global gitignore patterns
 ├── slurm/
 │   ├── slurm_aliases.sh    # Router — sources the active cluster's config
 │   ├── slurm_aliases.fsc.sh    # FSC cluster (H200 GPUs, h200_maestro_high QOS)
@@ -54,6 +56,7 @@ Symlinks created by `install.sh`:
 | `shell/aliases` | `~/.aliases` |
 | `shell/inputrc` | `~/.inputrc` |
 | `git/gitconfig` | `~/.gitconfig` |
+| `git/gitignore_global` | `~/.gitignore_global` |
 | `vim/vimrc` | `~/.vimrc` |
 | `tmux/tmux.conf` | `~/.tmux.conf` |
 | `gdb/gdbinit` | `~/.gdbinit` |
@@ -76,7 +79,7 @@ The `shell/aliases` file is the main entry point, organized in this order:
 8. Slurm sourcing
 9. `~/.localrc` (last — can override anything)
 
-The Slurm router (`slurm/slurm_aliases.sh`) sources exactly one cluster-specific file — toggle by commenting/uncommenting lines (currently FSC is active).
+The Slurm router (`slurm/slurm_aliases.sh`) sources exactly one cluster-specific file — controlled by the `DOTFILES_CLUSTER` env var (default: `fsc`). Set it in `~/.localrc` to switch clusters.
 
 The FSC Slurm file (`slurm/slurm_aliases.fsc.sh`) is the largest component (~664 lines), organized into numbered sections:
 1. Basic aliases (`si`, `sq`, `sqme`, `sqp`)
@@ -86,7 +89,7 @@ The FSC Slurm file (`slurm/slurm_aliases.fsc.sh`) is the largest component (~664
 5. Job management & control (`scancel-running`, `scancel-all`, `sjob`, `shistory`, `sdetails`)
 6. Advanced monitoring (`snodes`, `gpu-utilization`, `qos-usage`)
 7. Quick access watch aliases (`watch-jobs`, `watch-gpu`, `watch-users`)
-9. SSH/dev session helpers (`sdev_tmux_ssh`, `sdev-gpu-x1`, `sdev-gpu-x4`, `sdev-gpu-x8`, `sdev-cpu-x24`, etc.)
+8. SSH/dev session helpers (`sdev_tmux_ssh`, `sdev-gpu-x1`, `sdev-gpu-x4`, `sdev-gpu-x8`, `sdev-cpu-x24`, etc.)
 
 ## Key Conventions
 

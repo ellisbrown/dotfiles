@@ -27,7 +27,13 @@ source ~/.zshrc  # or source ~/.bashrc
 
 ## Mac Setup
 
-On a fresh Mac, install Homebrew then use the Brewfile:
+On a fresh Mac, use `setup.sh` for a one-command setup (installs Homebrew, packages, and symlinks):
+
+```bash
+bash ~/dotfiles/setup.sh
+```
+
+Or do it manually:
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
