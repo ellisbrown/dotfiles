@@ -605,7 +605,7 @@ alias running-jobs="squeue -t RUNNING"
 alias cluster-status="sinfo -o '%P %A %D %T'"
 
 # ==============================================================================
-#  Section 9: Direct SSH Access Aliases (for VS Code/Cursor)
+#  Section 8: Direct SSH Access Aliases (for VS Code/Cursor)
 # ==============================================================================
 
 # Generic helper to launch a persistent tmux session with sinteractive for SSH/VSCode
