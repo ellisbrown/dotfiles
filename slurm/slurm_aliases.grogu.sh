@@ -20,12 +20,12 @@ alias sc="scontrol show node"
 
 
 getbash () {
-        MEM="${4:-56}G"
-        srun -N 1 -t 0-48:00:00 -G $2 -c $3 -W 0 --partition=deepaklong --nodelist=grogu-$1 --mem=$MEM --pty /bin/zsh -i
+        local MEM="${4:-56}G"
+        srun -N 1 -t 0-48:00:00 -G "$2" -c "$3" -W 0 --partition=deepaklong --nodelist="grogu-$1" --mem="$MEM" --pty /bin/bash -i
 }
 getbasha () {
-        MEM="${4:-56}G"
-	srun -N 1 -t 0-48:00:00 -G $2 -c $3 -W 0 --partition=abhinavlong --nodelist=grogu-$1 --mem=$MEM --pty /bin/zsh -i
+        local MEM="${4:-56}G"
+	srun -N 1 -t 0-48:00:00 -G "$2" -c "$3" -W 0 --partition=abhinavlong --nodelist="grogu-$1" --mem="$MEM" --pty /bin/bash -i
 }
 
 # Greene

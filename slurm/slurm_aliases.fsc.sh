@@ -139,21 +139,18 @@ sinteractive() {
     echo "----------------------------------------------------"
 
     # --- Build and Run Command ---
-    local base="--qos=$qos --mem=$total_mem --time=$time --job-name=$job_name --overlap"
-    # testing --overlap to see if it helps with the false error:
-    # > Access denied by pam_slurm_adopt: you have no active jobs on this node
+    # --overlap helps with false "Access denied by pam_slurm_adopt" errors
+    local srun_cmd=(srun --qos="$qos" --mem="$total_mem" --time="$time" --job-name="$job_name" --overlap)
     if [ "$gpus" -gt 0 ]; then
-        srun_cmd="srun $base --gpus=$gpus --cpus-per-gpu=$cpus_per_gpu --nodes=1 --pty $cmd"
-        # example: srun --qos=maestro_high --mem=80G --time=24:00:00 --job-name=interactive --overlap --gpus=1 --cpus-per-gpu=48 --nodes=1 --pty /bin/bash
+        srun_cmd+=(--gpus="$gpus" --cpus-per-gpu="$cpus_per_gpu" --nodes=1 --pty "$cmd")
     else
-        srun_cmd="srun $base --cpus-per-task=$cpus_per_gpu --pty $cmd"
-        # example: srun --qos=maestro_high --mem=80G --time=24:00:00 --job-name=interactive --overlap --cpus-per-task=48 --pty /bin/bash
+        srun_cmd+=(--cpus-per-task="$cpus_per_gpu" --pty "$cmd")
     fi
 
     echo "Running command:"
-    echo $srun_cmd
+    echo "${srun_cmd[*]}"
     echo "----------------------------------------------------"
-    eval $srun_cmd
+    "${srun_cmd[@]}"
 }
 
 # ==============================================================================
