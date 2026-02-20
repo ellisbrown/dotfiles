@@ -1,10 +1,13 @@
 # dotfiles root
 DOTFILES="${DOTFILES:-$HOME/dotfiles}"
 
-# resource whichever shell
+# resource whichever shell (detects the running shell, not login shell)
 rsc () {
-    shell=${SHELL##*/}
-    source ~/.${shell}rc
+    if [ -n "$ZSH_VERSION" ]; then
+        source ~/.zshrc
+    elif [ -n "$BASH_VERSION" ]; then
+        source ~/.bashrc
+    fi
 }
 
 #######################################
@@ -31,10 +34,17 @@ alias susp='sudo sp'
 
 # count number of files in a directory
 alias count='ls -1 | wc -l'
-alias countall='sudo find . -type f | wc -l'
+alias countall='find . -type f | wc -l'
 
-# kill all processes of a user
-alias kys="sudo pkill -u $USER"
+# kill all processes of current user (with confirmation)
+kys () {
+    echo "This will kill ALL your processes (including this shell)."
+    printf "Are you sure? [y/N] "
+    read -r confirm
+    if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then
+        pkill -u "$USER"
+    fi
+}
 
 
 ### MODERN CLI UPGRADES #################
@@ -58,6 +68,11 @@ fi
 # fd (simpler find, respects .gitignore)
 if command -v fd &>/dev/null; then
     alias ff="fd"
+fi
+
+# ripgrep -> grep (faster, .gitignore-aware)
+if command -v rg &>/dev/null; then
+    alias grep="rg"
 fi
 
 
