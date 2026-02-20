@@ -104,7 +104,11 @@ git-ssh () {
 alias rscp='rsync -aP'
 alias rsmv='rsync -aP --remove-source-files'
 # https://gist.github.com/KartikTalwar/4393116
-alias rsnc='rsync -aHAXxvL --numeric-ids --progress -e "ssh -T -o Compression=no -x"'
+if [[ "$(uname)" == "Linux" ]]; then
+    alias rsnc='rsync -aHAXxvL --numeric-ids --progress -e "ssh -T -o Compression=no -x"'
+else
+    alias rsnc='rsync -axvL --numeric-ids --progress -e "ssh -T -o Compression=no -x"'
+fi
 
 
 ### CONDA #############################
