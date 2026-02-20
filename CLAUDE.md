@@ -98,4 +98,5 @@ The FSC Slurm file (`slurm/slurm_aliases.fsc.sh`) is the largest component (~664
 - `git/gitconfig` contains only QOL settings (aliases, rebase-on-pull, URL shorthands). Credentials and `user.name`/`user.email` belong in `~/.localrc` or `~/.gitconfig.local`.
 - Platform-specific configs (e.g., Ghostty) are only symlinked on the relevant platform — `install.sh` handles this with `uname` detection.
 - **Adding a new config**: Create a topic directory, add the config file, add a `link_file` line to `install.sh`, and update the symlink table above.
+- **Bash on clusters, zsh on Mac** — clusters use bash (zsh has compatibility issues with Slurm), Macs use zsh. All shell config must work in both. `setup.sh` skips Homebrew on Linux and just runs `install.sh` directly.
 - See `REFERENCE.md` for a complete cheat sheet of all aliases, keybindings, and commands.
