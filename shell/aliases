@@ -37,6 +37,35 @@ alias countall='sudo find . -type f | wc -l'
 alias kys="sudo pkill -u $USER"
 
 
+### MODERN CLI UPGRADES #################
+# These only activate if the tool is installed.
+# On Mac: `brew bundle` installs them.
+# On clusters: they activate if available, otherwise silently skip.
+
+# eza -> ls (colored, git-aware listings)
+if command -v eza &>/dev/null; then
+    alias ls="eza"
+    alias ll="eza -la --git"
+    alias lt="eza -laT --level=2"  # tree view
+fi
+
+# bat -> cat (syntax highlighting, line numbers)
+if command -v bat &>/dev/null; then
+    alias cat="bat --paging=never"
+    alias catp="bat"               # bat with pager
+fi
+
+# fd -> find (simpler syntax, respects .gitignore)
+if command -v fd &>/dev/null; then
+    alias find="fd"
+fi
+
+# ripgrep -> grep (faster, respects .gitignore)
+if command -v rg &>/dev/null; then
+    alias grep="rg"
+fi
+
+
 ### NVIDIA ############################
 #alias ns="nvidia-smi"
 alias ns="watch -d -n 0.5 nvidia-smi"
@@ -79,6 +108,33 @@ alias mcf="mamba env create --file"
 # update conda environment from file
 alias cuf="conda env update --file"
 alias muf="mamba env update --file"
+
+
+### FZF ################################
+# Ctrl+R  fuzzy history search
+# Ctrl+T  fuzzy file finder
+# Alt+C   fuzzy cd into subdirectory
+if command -v fzf &>/dev/null; then
+    # fzf ships shell integration; source it if available
+    if [[ -f ~/.fzf.zsh ]] && [[ "$SHELL" == */zsh ]]; then
+        source ~/.fzf.zsh
+    elif [[ -f ~/.fzf.bash ]] && [[ "$SHELL" == */bash ]]; then
+        source ~/.fzf.bash
+    else
+        # Homebrew fzf installs keybindings here
+        local fzf_base="${HOMEBREW_PREFIX:-/opt/homebrew}/opt/fzf"
+        if [[ -d "$fzf_base" ]]; then
+            [[ $- == *i* ]] && source "$fzf_base/shell/completion.${SHELL##*/}" 2>/dev/null
+            source "$fzf_base/shell/key-bindings.${SHELL##*/}" 2>/dev/null
+        fi
+    fi
+    # Use fd for fzf file search if available (faster, respects .gitignore)
+    if command -v fd &>/dev/null; then
+        export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git"
+        export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+        export FZF_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git"
+    fi
+fi
 
 
 #######################################
