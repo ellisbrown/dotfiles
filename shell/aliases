@@ -1,3 +1,6 @@
+# dotfiles root
+DOTFILES="${DOTFILES:-$HOME/dotfiles}"
+
 # resource whichever shell
 rsc () {
     shell=${SHELL##*/}
@@ -84,7 +87,7 @@ alias muf="mamba env update --file"
 
 # wait for some specified amount of time
 wait_for() {
-    python ~/config/wait.py "$@"
+    python "$DOTFILES/bin/wait.py" "$@"
 }
 
 
@@ -92,4 +95,13 @@ wait_for() {
 ### SLURM #############################
 #######################################
 
-source ~/config/slurm_aliases.sh
+source "$DOTFILES/slurm/slurm_aliases.sh"
+
+
+#######################################
+### LOCAL OVERRIDES ###################
+#######################################
+
+# Machine-specific config (not in git)
+# Copy localrc.example to ~/.localrc and customize
+[[ -f ~/.localrc ]] && source ~/.localrc

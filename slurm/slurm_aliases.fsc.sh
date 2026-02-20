@@ -586,8 +586,8 @@ alias scancel-pending="scancel -i -t PENDING -u $USER"
 
 # Quick aliases for common tasks
 alias sqme-detailed="squeue -u $USER -o '%.7i %.12P %.25j %.4t %.10M %.6D %.10Q %R'"
-alias watch-gpu="watch -d -n 5 'bash -c \"source ~/config/slurm_aliases.sh && gpu-usage\"'"
-alias watch-users="watch -d -n 5 'bash -c \"source ~/config/slurm_aliases.sh && susers\"'"
+alias watch-gpu="watch -d -n 5 'bash -c \"source \${DOTFILES:-\$HOME/dotfiles}/slurm/slurm_aliases.sh && gpu-usage\"'"
+alias watch-users="watch -d -n 5 'bash -c \"source \${DOTFILES:-\$HOME/dotfiles}/slurm/slurm_aliases.sh && susers\"'"
 alias pending-jobs="squeue -t PENDING"
 alias running-jobs="squeue -t RUNNING"
 alias cluster-status="sinfo -o '%P %A %D %T'"
@@ -636,7 +636,7 @@ sdev_tmux_ssh() {
     echo "Starting ${gpus}-GPU job for SSH access (${hours} hours)..."
     echo "This will create a persistent tmux session ($session_name) that survives disconnections."
 
-    tmux new-session -d -s "$session_name" "source ~/config/slurm_aliases.sh && sinteractive -g $gpus -c $cpus_per_gpu -m $mem_per_gpu -t $time_limit -J $session_name -q $qos; exec bash"
+    tmux new-session -d -s "$session_name" "source \${DOTFILES:-\$HOME/dotfiles}/slurm/slurm_aliases.sh && sinteractive -g $gpus -c $cpus_per_gpu -m $mem_per_gpu -t $time_limit -J $session_name -q $qos; exec bash"
 
     echo "Job started in tmux session: $session_name"
     echo "SSH to the node shown in NODELIST when the job shows as RUNNING"
