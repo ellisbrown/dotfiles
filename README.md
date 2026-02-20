@@ -36,21 +36,15 @@ brew bundle
 
 ## Linux / Cluster Setup
 
-Prerequisites (install what's available — none are strictly required):
+Clusters use bash (avoids zsh/Slurm compatibility issues). Optional prerequisites:
 
 ```bash
-# zsh (if you have sudo)
-sudo apt install zsh
-
-# oh-my-zsh
-sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
-
 # miniforge (conda/mamba without sudo)
 curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
 bash Miniforge3-$(uname)-$(uname -m).sh
 ```
 
-Then run the [Quick Start](#quick-start) steps above.
+Then run the [Quick Start](#quick-start) steps above (use `source ~/.bashrc` instead of `~/.zshrc`).
 
 ## Machine-Specific Config
 
