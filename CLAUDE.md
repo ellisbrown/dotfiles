@@ -43,7 +43,8 @@ There is no build system or test suite. Changes are tested by re-sourcing.
 ├── tmux/tmux.conf          # Tmux config (mouse, 256-color, resurrect/continuum)
 ├── ghostty/config          # Ghostty terminal config (Mac only)
 ├── gdb/gdbinit             # GDB-GEF configuration
-└── bin/wait.py             # Python utility: sleep with tqdm progress bar
+├── bin/wait.py             # Python utility: sleep with tqdm progress bar
+└── REFERENCE.md            # Quick reference for all aliases and keybindings
 ```
 
 Symlinks created by `install.sh`:
@@ -97,3 +98,4 @@ The FSC Slurm file (`slurm/slurm_aliases.fsc.sh`) is the largest component (~664
 - `git/gitconfig` contains only QOL settings (aliases, rebase-on-pull, URL shorthands). Credentials and `user.name`/`user.email` belong in `~/.localrc` or `~/.gitconfig.local`.
 - Platform-specific configs (e.g., Ghostty) are only symlinked on the relevant platform — `install.sh` handles this with `uname` detection.
 - **Adding a new config**: Create a topic directory, add the config file, add a `link_file` line to `install.sh`, and update the symlink table above.
+- See `REFERENCE.md` for a complete cheat sheet of all aliases, keybindings, and commands.
