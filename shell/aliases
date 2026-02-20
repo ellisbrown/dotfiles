@@ -126,16 +126,21 @@ alias muf="mamba env update --file"
 # Alt+C   fuzzy cd into subdirectory
 if command -v fzf &>/dev/null; then
     # fzf ships shell integration; source it if available
-    if [[ -f ~/.fzf.zsh ]] && [[ "$SHELL" == */zsh ]]; then
+    if [[ -f ~/.fzf.zsh ]] && [[ -n "$ZSH_VERSION" ]]; then
         source ~/.fzf.zsh
-    elif [[ -f ~/.fzf.bash ]] && [[ "$SHELL" == */bash ]]; then
+    elif [[ -f ~/.fzf.bash ]] && [[ -n "$BASH_VERSION" ]]; then
         source ~/.fzf.bash
     else
         # Homebrew fzf installs keybindings here
         fzf_base="${HOMEBREW_PREFIX:-/opt/homebrew}/opt/fzf"
         if [[ -d "$fzf_base" ]]; then
-            [[ $- == *i* ]] && source "$fzf_base/shell/completion.${SHELL##*/}" 2>/dev/null
-            source "$fzf_base/shell/key-bindings.${SHELL##*/}" 2>/dev/null
+            if [[ -n "$ZSH_VERSION" ]]; then
+                [[ $- == *i* ]] && source "$fzf_base/shell/completion.zsh" 2>/dev/null
+                source "$fzf_base/shell/key-bindings.zsh" 2>/dev/null
+            elif [[ -n "$BASH_VERSION" ]]; then
+                [[ $- == *i* ]] && source "$fzf_base/shell/completion.bash" 2>/dev/null
+                source "$fzf_base/shell/key-bindings.bash" 2>/dev/null
+            fi
         fi
     fi
     # Use fd for fzf file search if available (faster, respects .gitignore)
