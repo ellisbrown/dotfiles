@@ -1,6 +1,9 @@
-# Synced git config — quality-of-life settings only.
-# Machine-specific settings (user.name, user.email, credentials)
-# belong in ~/.localrc or ~/.gitconfig.local
+# Synced git config — defaults + quality-of-life settings.
+# Override user.name/user.email per-machine in ~/.gitconfig.local
+
+[user]
+    name = Ellis Brown
+    email = ellis.brown@nyu.edu
 
 [alias]
     s  = status -s

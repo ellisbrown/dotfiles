@@ -2,7 +2,7 @@
 DOTFILES="${DOTFILES:-$HOME/dotfiles}"
 
 # resource whichever shell (detects the running shell, not login shell)
-rsc () {
+function rsc {
     if [ -n "$ZSH_VERSION" ]; then
         source ~/.zshrc
     elif [ -n "$BASH_VERSION" ]; then
@@ -38,7 +38,7 @@ alias count='ls -1 | wc -l'
 alias countall='find . -type f | wc -l'
 
 # kill all processes of current user (with confirmation)
-kys () {
+function kys {
     echo "This will kill ALL your processes (including this shell)."
     printf "Are you sure? [y/N] "
     read -r confirm
@@ -81,7 +81,7 @@ fi
 #alias ns="nvidia-smi"
 alias ns="watch -d -n 0.5 nvidia-smi"
 
-setcuda () {
+function setcuda {
     export CUDA_VISIBLE_DEVICES=$1
 }
 
@@ -89,12 +89,12 @@ setcuda () {
 
 # Flip Git betwen SSH and HTTPS
 # https://stackoverflow.com/a/52348042/5487412
-git-https () {
+function git-https {
     git remote set-url origin https://github.com/$(git remote get-url origin \
 	| sed 's/https:\/\/github.com\///' \
 	| sed 's/git@github.com://')
 }
-git-ssh () {
+function git-ssh {
     git remote set-url origin git@github.com:$(git remote get-url origin \
 	| sed 's/https:\/\/github.com\///' \
 	| sed 's/git@github.com://')
@@ -162,7 +162,7 @@ fi
 #######################################
 
 # wait for some specified amount of time
-wait_for() {
+function wait_for {
     python "$DOTFILES/bin/wait.py" "$@"
 }
 
