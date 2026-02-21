@@ -1,5 +1,7 @@
 # Quick Reference
 
+> **TIP:** Run `ref` in your terminal for an interactive version with examples and search.
+
 Cheat sheet for all aliases and keybindings defined in this dotfiles repo.
 
 ## Shell

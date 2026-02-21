@@ -32,6 +32,7 @@ There is no build system or test suite. Changes are tested by re-sourcing.
 ├── Brewfile                # Declarative Mac packages (brew bundle)
 ├── shell/
 │   ├── aliases             # Primary shell aliases/functions — main entry point
+│   ├── reference.sh        # `ref` function — terminal quick reference with search
 │   ├── inputrc             # Readline config (tab completion, history search)
 │   └── localrc.example     # Template for ~/.localrc (machine-specific, not in git)
 ├── git/
@@ -76,8 +77,9 @@ The `shell/aliases` file is the main entry point, organized in this order:
 5. Rsync, conda/mamba aliases
 6. **fzf integration** — Ctrl+R/Ctrl+T/Alt+C keybindings, conditional on fzf being installed. Uses fd as backend when available.
 7. Python utilities
-8. Slurm sourcing
-9. `~/.localrc` (last — can override anything)
+8. **Reference** — `ref` function (sourced from `shell/reference.sh`) for terminal quick reference with search
+9. Slurm sourcing
+10. `~/.localrc` (last — can override anything)
 
 The Slurm router (`slurm/slurm_aliases.sh`) sources exactly one cluster-specific file — controlled by the `DOTFILES_CLUSTER` env var (default: `fsc`). Set it in `~/.localrc` to switch clusters.
 
@@ -102,7 +104,8 @@ The FSC Slurm file (`slurm/slurm_aliases.fsc.sh`) is the largest component (~664
 - Platform-specific configs (e.g., Ghostty) are only symlinked on the relevant platform — `install.sh` handles this with `uname` detection.
 - **Adding a new config**: Create a topic directory, add the config file, add a `link_file` line to `install.sh`, and update the symlink table above.
 - **Bash on clusters, zsh on Mac** — clusters use bash (zsh has compatibility issues with Slurm), Macs use zsh. All shell config must work in both. `setup.sh` skips Homebrew on Linux and just runs `install.sh` directly.
-- See `REFERENCE.md` for a complete cheat sheet of all aliases, keybindings, and commands.
+- See `REFERENCE.md` for a complete cheat sheet of all aliases, keybindings, and commands. The `ref` function provides the same info interactively in the terminal.
+- **Keeping reference in sync**: When adding, changing, or removing aliases or commands, update both `shell/reference.sh` (the `ref` function data + search index) and `REFERENCE.md`. Both must reflect the current set of commands.
 
 ## Post-Install Manual Steps (not automated by install.sh)
 
