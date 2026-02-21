@@ -16,6 +16,9 @@ background-blur = 16
 # theme = dark:Github Dark Default,light:Primary
 theme = dark:Firefly Traditional,light:Primary
 
+# make Option key send Alt/Meta (needed for tmux Alt bindings)
+macos-option-as-alt = true
+
 # typography
 font-size = 14
 font-thicken = true

@@ -49,15 +49,15 @@ These activate automatically if the tool is installed (via `brew bundle` on Mac 
 | `tl` | List sessions |
 | `tk NAME` | Kill session |
 
-**Tmux keybindings** (inside tmux):
+**Tmux keybindings** (inside tmux, prefix is `Ctrl+A`):
 
 | Key | What it does |
 |---|---|
-| `Ctrl+B` | Split vertical |
-| `Ctrl+U` | Split horizontal |
+| `Ctrl+B` | Split vertical (direct, no prefix) |
+| `Ctrl+U` | Split horizontal (direct, no prefix) |
 | `Shift+Arrow` | Switch panes |
 | `PageUp/Down` | Switch windows |
-| `Alt+P` | Kill pane |
+| `Alt+P` | Kill pane (on Mac: needs `macos-option-as-alt` in Ghostty) |
 | `Alt+W` | Kill window |
 | `Alt+S` | Kill session |
 | `prefix r` | Reload tmux config |
