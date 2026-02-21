@@ -1,0 +1,16 @@
+# Local-only context (session notes, not config)
+CONTEXT.md
+
+# Reference repos cloned for study
+examples/
+
+# macOS
+.DS_Store
+
+# Editor / IDE
+*.swp
+*.swo
+*~
+
+# Claude Code
+settings.local.json
