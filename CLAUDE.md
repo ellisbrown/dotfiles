@@ -98,8 +98,27 @@ The FSC Slurm file (`slurm/slurm_aliases.fsc.sh`) is the largest component (~664
 - The `QOS` variable in `slurm_aliases.fsc.sh` (currently `h200_maestro_high`) is referenced by `sinteractive` and the `sdev-*` shortcuts. `sinteractive` defaults: 1 GPU, 48 CPUs/GPU, 80 GB mem/GPU, 1 hour.
 - The `body()` helper (defined in both FSC and Grogu files) preserves header lines when piping sorted output — used extensively with `sinfo`/`squeue` pipes.
 - `~/.localrc` (not in git) is sourced last for machine-specific overrides (API keys, project aliases, custom QOS). See `shell/localrc.example` for the template.
-- `git/gitconfig` contains only QOL settings (aliases, rebase-on-pull, URL shorthands). Credentials and `user.name`/`user.email` belong in `~/.localrc` or `~/.gitconfig.local`.
+- `git/gitconfig` contains only QOL settings (aliases, rebase-on-pull, URL shorthands). **Credentials (`user.name`, `user.email`) and machine-specific git settings belong in `~/.gitconfig.local`** — the `[include]` directive in `git/gitconfig` picks this up automatically. Never put credentials in `git/gitconfig` itself.
 - Platform-specific configs (e.g., Ghostty) are only symlinked on the relevant platform — `install.sh` handles this with `uname` detection.
 - **Adding a new config**: Create a topic directory, add the config file, add a `link_file` line to `install.sh`, and update the symlink table above.
 - **Bash on clusters, zsh on Mac** — clusters use bash (zsh has compatibility issues with Slurm), Macs use zsh. All shell config must work in both. `setup.sh` skips Homebrew on Linux and just runs `install.sh` directly.
 - See `REFERENCE.md` for a complete cheat sheet of all aliases, keybindings, and commands.
+
+## Post-Install Manual Steps (not automated by install.sh)
+
+These are one-time steps that can't be symlinked or scripted portably:
+
+1. **Git credentials** — copy your git identity to `~/.gitconfig.local` (picked up via `[include]` in `git/gitconfig`):
+   ```bash
+   # ~/.gitconfig.local
+   [user]
+       name = Your Name
+       email = you@example.com
+   ```
+
+2. **Cursor/VSCode terminal Alt keys** — add to Cursor `settings.json` so `Alt+P/W/S` tmux bindings work in the integrated terminal (macOS only):
+   ```json
+   "terminal.integrated.macOptionIsMeta": true
+   ```
+
+3. **Tmux prefix** — the prefix is `Ctrl+A` (not the default `Ctrl+B`, which is reserved for vertical split). If upgrading an existing tmux session, run `prefix r` to reload or restart tmux.

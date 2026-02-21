@@ -67,5 +67,6 @@ This is sourced last, so it can override anything.
 
 ```bash
 cd ~/dotfiles && git pull
-rsc   # reload shell
+rsc             # reload aliases
+bash install.sh # re-run if new symlinks were added
 ```

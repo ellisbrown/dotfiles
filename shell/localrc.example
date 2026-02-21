@@ -13,9 +13,11 @@
 # export HF_TOKEN=...
 # export OPENAI_API_KEY=...
 
-# --- Git identity (if not using ~/.gitconfig.local) ---
-# git config --global user.name "Your Name"
-# git config --global user.email "you@example.com"
+# --- Git identity ---
+# Preferred: put this in ~/.gitconfig.local (auto-included via git/gitconfig)
+# [user]
+#     name = Your Name
+#     email = you@example.com
 
 # --- Cluster / Account ---
 # export DOTFILES_CLUSTER=fsc   # switch cluster config (fsc or grogu)
