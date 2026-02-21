@@ -8,6 +8,7 @@ rsc () {
     elif [ -n "$BASH_VERSION" ]; then
         source ~/.bashrc
     fi
+    echo "reloaded"
 }
 
 #######################################
