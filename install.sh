@@ -94,6 +94,10 @@ link_file "$DOTFILES/gdb/gdbinit"      "$HOME/.gdbinit"
 link_file "$DOTFILES/git/gitconfig"    "$HOME/.gitconfig"
 link_file "$DOTFILES/git/gitignore_global" "$HOME/.gitignore_global"
 
+# Claude Code
+link_file "$DOTFILES/claude/settings.json"        "$HOME/.claude/settings.json"
+link_file "$DOTFILES/claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
+
 # macOS-only configs
 if [ "$(uname -s)" = "Darwin" ]; then
     info "Detected macOS — installing platform-specific configs"

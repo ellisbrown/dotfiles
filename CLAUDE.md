@@ -45,6 +45,9 @@ There is no build system or test suite. Changes are tested by re-sourcing.
 ├── vim/vimrc               # Vim configuration
 ├── tmux/tmux.conf          # Tmux config (mouse, 256-color, resurrect/continuum)
 ├── ghostty/config          # Ghostty terminal config (Mac only)
+├── claude/
+│   ├── settings.json           # Claude Code preferences (model, statusline, plugins)
+│   └── statusline-command.sh   # Custom statusline: folder, git, model, context bar, cost
 ├── gdb/gdbinit             # GDB-GEF configuration
 ├── bin/wait.py             # Python utility: sleep with tqdm progress bar
 └── REFERENCE.md            # Quick reference for all aliases and keybindings
@@ -61,6 +64,8 @@ Symlinks created by `install.sh`:
 | `vim/vimrc` | `~/.vimrc` |
 | `tmux/tmux.conf` | `~/.tmux.conf` |
 | `gdb/gdbinit` | `~/.gdbinit` |
+| `claude/settings.json` | `~/.claude/settings.json` |
+| `claude/statusline-command.sh` | `~/.claude/statusline-command.sh` |
 | `ghostty/config` | `~/Library/Application Support/com.mitchellh.ghostty/config` (Mac only) |
 
 ## Architecture
@@ -106,6 +111,7 @@ The FSC Slurm file (`slurm/slurm_aliases.fsc.sh`) is the largest component (~664
 - **Bash on clusters, zsh on Mac** — clusters use bash (zsh has compatibility issues with Slurm), Macs use zsh. All shell config must work in both. `setup.sh` skips Homebrew on Linux and just runs `install.sh` directly.
 - See `REFERENCE.md` for a complete cheat sheet of all aliases, keybindings, and commands. The `ref` function provides the same info interactively in the terminal.
 - **Keeping reference in sync**: When adding, changing, or removing aliases or commands, update both `shell/reference.sh` (the `ref` function data + search index) and `REFERENCE.md`. Both must reflect the current set of commands.
+- **Claude Code statusline** — the custom statusline script (`claude/statusline-command.sh`) requires `jq` and `bc`. Falls back to a simple display if either is unavailable (e.g., minimal cluster environments).
 
 ## Post-Install Manual Steps (not automated by install.sh)
 
