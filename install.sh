@@ -143,8 +143,16 @@ add_to_rc "$HOME/.bashrc"
 
 echo ""
 if [ ! -f "$HOME/.localrc" ]; then
-    info "No ~/.localrc found. You can create one for machine-specific config:"
+    info "No ~/.localrc found. Create one for machine-specific config:"
     info "  cp $DOTFILES/shell/localrc.example ~/.localrc"
+    info ""
+    info "Common things to set in ~/.localrc:"
+    info "  export DOTFILES_CLUSTER=fsc    # cluster config (fsc or grogu)"
+    info "  export SLURM_ACCOUNT=...       # default slurm account"
+    info "  API keys, project aliases, conda shortcuts, etc."
+    info ""
+    info "For per-machine git overrides (e.g., different email):"
+    info "  Create ~/.gitconfig.local (auto-included by git/gitconfig)"
 else
     ok "~/.localrc exists"
 fi
