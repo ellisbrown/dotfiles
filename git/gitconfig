@@ -54,8 +54,18 @@
 [url "git@github.com:"]
     insteadOf = "gh:"
 
-[include]
-    path = ~/.gitconfig.local
-
 [fetch]
     prune = true
+
+[filter "lfs"]
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+
+[credential]
+    helper = store
+
+# Per-machine overrides (optional) — last so local settings always win
+[include]
+    path = ~/.gitconfig.local
