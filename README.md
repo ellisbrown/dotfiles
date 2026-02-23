@@ -54,14 +54,29 @@ Then run the [Quick Start](#quick-start) steps above (use `source ~/.bashrc` ins
 
 ## Machine-Specific Config
 
-Create `~/.localrc` for settings that shouldn't be in git (API keys, project aliases):
+Create `~/.localrc` for settings that shouldn't be in git (API keys, project aliases, cluster selection):
 
 ```bash
 cp ~/dotfiles/shell/localrc.example ~/.localrc
 # edit with your settings
 ```
 
-This is sourced last, so it can override anything.
+This is sourced last, so it can override anything. On clusters, you'll typically want to set:
+
+```bash
+export DOTFILES_CLUSTER=fsc    # or grogu — controls which slurm aliases load
+export SLURM_ACCOUNT=...       # default slurm account
+```
+
+For per-machine git overrides (e.g., a different email for a work machine), create `~/.gitconfig.local`. It's auto-included at the bottom of `git/gitconfig`, so local settings always win:
+
+```ini
+# ~/.gitconfig.local
+[user]
+    email = work-email@example.com
+[credential]
+    helper = osxkeychain   # override the default 'store' helper on Mac
+```
 
 ## Updating
 
