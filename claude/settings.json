@@ -1,6 +1,8 @@
 {
   "env": {
-    "DISABLE_AUTOUPDATER": "1"
+    "DISABLE_AUTOUPDATER": "1",
+    // https://code.claude.com/docs/en/agent-teams
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "model": "opus",
   "statusLine": {
