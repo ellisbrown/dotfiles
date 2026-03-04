@@ -69,3 +69,7 @@
 # Per-machine overrides (optional) — last so local settings always win
 [include]
     path = ~/.gitconfig.local
+[lfs "customtransfer.xet"]
+	path = git-xet
+	args = transfer
+	concurrent = true
