@@ -11,6 +11,9 @@ function rsc {
     echo "reloaded"
 }
 
+# quick navigation to research vault
+alias rv="cd ~/workspace/research-vault"
+
 #######################################
 ### ALIASES ###########################
 #######################################

@@ -9,6 +9,7 @@ Cheat sheet for all aliases and keybindings defined in this dotfiles repo.
 | Command | What it does |
 |---|---|
 | `rsc` | Reload shell config (sources `~/.zshrc` or `~/.bashrc`) |
+| `rv` | Jump to research vault (`~/workspace/research-vault`) |
 | `sp` | Show disk usage of current directory, sorted by size |
 | `spd` | Same as `sp` but includes dotfiles |
 | `susp` | Same as `sp` with sudo |

@@ -71,6 +71,8 @@ function ref {
         _ref_header "Shell Helpers"
         _ref_cmd "rsc" "Reload shell config (sources ~/.zshrc or ~/.bashrc)"
         _ref_example "rsc"
+        _ref_cmd "rv" "Jump to research vault (~/workspace/research-vault)"
+        _ref_example "rv"
         _ref_cmd "sp" "Show disk usage of current dir, sorted by size"
         _ref_cmd "spd" "Same as sp but includes dotfiles"
         _ref_cmd "susp" "Same as sp with sudo"
@@ -272,6 +274,7 @@ function _ref_search {
     local index
     read -r -d '' index <<'SEARCH_INDEX'
 shell|rsc|Reload shell config (sources ~/.zshrc or ~/.bashrc)
+shell|rv|Jump to research vault (~/workspace/research-vault)
 shell|sp|Show disk usage of current dir, sorted by size
 shell|spd|Same as sp but includes dotfiles
 shell|susp|Same as sp with sudo
