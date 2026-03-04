@@ -24,5 +24,9 @@ brew "eza"             # better ls
 # Python / ML
 cask "miniforge"       # conda without Anaconda bloat
 
+# Taps
+tap "manaflow-ai/cmux"
+
 # Terminal
 cask "ghostty"
+cask "cmux"            # AI-powered terminal multiplexer
