@@ -57,7 +57,7 @@ function ref {
         _ref_cmd "ref git" "Git aliases, functions, settings"
         _ref_cmd "ref rsync" "Rsync copy/move shortcuts"
         _ref_cmd "ref conda" "Conda/mamba environment commands"
-        _ref_cmd "ref slurm" "Slurm job management (FSC cluster)"
+        _ref_cmd "ref slurm" "Slurm job management (cluster: ${DOTFILES_CLUSTER:-fsc})"
         _ref_cmd "ref python" "Python utilities"
         printf "\n  ${_ref_dim}Or search: ${_ref_green}ref <keyword>${_ref_reset}\n\n"
         return 0
@@ -190,7 +190,8 @@ function ref {
         ;;
 
     slurm)
-        _ref_header "Slurm (FSC Cluster)"
+        local _cluster="${DOTFILES_CLUSTER:-fsc}"
+        _ref_header "Slurm ($_cluster cluster)"
 
         _ref_section "Queue & Info"
         _ref_cmd "si" "Cluster node overview"
@@ -201,10 +202,19 @@ function ref {
         _ref_section "Interactive Jobs"
         _ref_cmd "sinteractive" "Interactive shell with GPU/CPU resources"
         _ref_cmd "  -g N" "Number of GPUs (default: 1)"
-        _ref_cmd "  -c N" "CPUs per GPU (default: 48)"
-        _ref_cmd "  -m N" "Memory in GB per GPU (default: 80)"
-        _ref_cmd "  -t TIME" "Time limit (default: 1:00:00)"
-        _ref_cmd "  -q QOS" "QOS (default: h200_maestro_high)"
+        if [[ "$_cluster" == "cw" ]]; then
+            _ref_cmd "  -c N" "CPUs per GPU (default: 14)"
+            _ref_cmd "  -m N" "Memory in GB per GPU (default: 220)"
+            _ref_cmd "  -t TIME" "Time limit (default: 1:00:00)"
+            _ref_cmd "  -p PARTITION" "Partition (default: learn)"
+            _ref_cmd "  -a ACCOUNT" "Account (default: fair_amaia_cw_explore)"
+            _ref_cmd "  -q QOS" "QOS (default: dev)"
+        else
+            _ref_cmd "  -c N" "CPUs per GPU (default: 48)"
+            _ref_cmd "  -m N" "Memory in GB per GPU (default: 80)"
+            _ref_cmd "  -t TIME" "Time limit (default: 1:00:00)"
+            _ref_cmd "  -q QOS" "QOS (default: h200_maestro_high)"
+        fi
         _ref_cmd "  -J NAME" "Job name"
         _ref_cmd "  -h" "Show full help"
         _ref_example "sinteractive -g 4 -t 8:00:00"
@@ -212,7 +222,11 @@ function ref {
 
         _ref_section "Monitoring"
         _ref_cmd "gpu-usage" "GPU cluster status + node breakdown"
-        _ref_cmd "cpu-usage" "CPU partition status"
+        if [[ "$_cluster" != "cw" ]]; then
+            _ref_cmd "cpu-usage" "CPU partition status"
+        else
+            _ref_cmd "obtest-status" "obtest partition status (idle nodes)"
+        fi
         _ref_cmd "partition-usage" "All partition usage"
         _ref_cmd "cluster-load" "Comprehensive cluster summary"
         _ref_cmd "my-usage" "Your current resource usage"
@@ -233,10 +247,22 @@ function ref {
         _ref_cmd "qos-usage" "QOS usage breakdown"
 
         _ref_section "Quick Dev Sessions"
-        _ref_cmd "sdev-gpu-x1" "1 GPU, 16 CPUs, 186G mem, 7 days"
-        _ref_cmd "sdev-gpu-x4" "4 GPUs, 16 CPUs, 186G mem, 7 days"
-        _ref_cmd "sdev-gpu-x8" "8 GPUs, 16 CPUs, 186G mem, 7 days"
-        _ref_cmd "sdev-cpu-x24" "0 GPUs, 24 CPUs, 186G mem, 7 days"
+        if [[ "$_cluster" == "cw" ]]; then
+            _ref_cmd "sdev-gpu-x1" "1 GPU, 14 CPUs, 220G mem, 24h (dev QoS)"
+            _ref_cmd "sdev-gpu-x4" "4 GPUs, 14 CPUs, 220G mem, 24h (dev QoS)"
+            _ref_cmd "sdev-gpu-x8" "8 GPUs, 14 CPUs, 220G mem, 24h (dev QoS)"
+            _ref_cmd "sdev-cpu-x24" "0 GPUs, 24 CPUs, 220G mem, 24h (dev QoS)"
+            _ref_cmd "sdev-gpu-x1-long" "1 GPU, 14 CPUs, 220G mem, 7d (explore QoS)"
+            _ref_cmd "sdev-gpu-x4-long" "4 GPUs, 14 CPUs, 220G mem, 7d (explore QoS)"
+            _ref_cmd "sdev-gpu-x8-long" "8 GPUs, 14 CPUs, 220G mem, 7d (explore QoS)"
+            _ref_cmd "sdev-obtest-x1" "1 GPU on obtest (idle nodes, 24h)"
+            _ref_cmd "sdev-obtest-x8" "8 GPUs on obtest (idle nodes, 24h)"
+        else
+            _ref_cmd "sdev-gpu-x1" "1 GPU, 16 CPUs, 186G mem, 7 days"
+            _ref_cmd "sdev-gpu-x4" "4 GPUs, 16 CPUs, 186G mem, 7 days"
+            _ref_cmd "sdev-gpu-x8" "8 GPUs, 16 CPUs, 186G mem, 7 days"
+            _ref_cmd "sdev-cpu-x24" "0 GPUs, 24 CPUs, 186G mem, 7 days"
+        fi
         _ref_tip "sdev-* sessions auto-attach via tmux."
 
         _ref_section "Watch (auto-refreshing)"
@@ -340,7 +366,8 @@ slurm|sqme|My jobs only (numbered)
 slurm|sqp PARTITION|Jobs in specific partition
 slurm|sinteractive|Interactive shell with GPU/CPU resources
 slurm|gpu-usage|GPU cluster status + node breakdown
-slurm|cpu-usage|CPU partition status
+slurm|cpu-usage|CPU partition status (FSC)
+slurm|obtest-status|obtest partition status (CW)
 slurm|partition-usage|All partition usage
 slurm|cluster-load|Comprehensive cluster summary
 slurm|my-usage|Your current resource usage
@@ -355,10 +382,15 @@ slurm|scancel-all|Cancel all your jobs
 slurm|snodes|Detailed node status
 slurm|gpu-utilization|GPU utilization across nodes
 slurm|qos-usage|QOS usage breakdown
-slurm|sdev-gpu-x1|1 GPU, 16 CPUs, 186G mem, 7 days
-slurm|sdev-gpu-x4|4 GPUs, 16 CPUs, 186G mem, 7 days
-slurm|sdev-gpu-x8|8 GPUs, 16 CPUs, 186G mem, 7 days
-slurm|sdev-cpu-x24|0 GPUs, 24 CPUs, 186G mem, 7 days
+slurm|sdev-gpu-x1|1 GPU dev session (tmux)
+slurm|sdev-gpu-x4|4 GPU dev session (tmux)
+slurm|sdev-gpu-x8|8 GPU dev session (tmux)
+slurm|sdev-cpu-x24|CPU-only dev session (tmux)
+slurm|sdev-gpu-x1-long|1 GPU long session, explore QoS (CW)
+slurm|sdev-gpu-x4-long|4 GPU long session, explore QoS (CW)
+slurm|sdev-gpu-x8-long|8 GPU long session, explore QoS (CW)
+slurm|sdev-obtest-x1|1 GPU on obtest partition (CW)
+slurm|sdev-obtest-x8|8 GPUs on obtest partition (CW)
 slurm|watch-jobs|Watch your job queue
 slurm|watch-gpu|Watch GPU usage
 slurm|watch-users|Watch user resource usage

@@ -126,7 +126,9 @@ These activate automatically if the tool is installed (via `brew bundle` on Mac 
 | `cuf FILE` | Update env from YAML |
 | `muf FILE` | Update env from YAML (mamba) |
 
-## Slurm (FSC Cluster)
+## Slurm
+
+> Defaults vary by cluster (`$DOTFILES_CLUSTER`). FSC uses H200 GPUs with a single QOS. CW uses H100 GPUs with account/QoS pairs. Set `DOTFILES_CLUSTER` in `~/.localrc`.
 
 ### Queue & Info
 
@@ -139,11 +141,21 @@ These activate automatically if the tool is installed (via `brew bundle` on Mac 
 
 ### Interactive Jobs
 
+**FSC defaults:**
 ```bash
 sinteractive              # 1 GPU, 48 CPUs, 80GB, 1 hour
 sinteractive -g 4         # 4 GPUs
 sinteractive -g 4 -t 8:00:00  # 4 GPUs, 8 hours
 sinteractive -g 0 -c 16   # CPU-only, 16 cores
+sinteractive -h            # full help
+```
+
+**CW defaults:**
+```bash
+sinteractive              # 1 H100 GPU, 14 CPUs, 220GB, 1 hour (dev QoS)
+sinteractive -g 4         # 4 GPUs
+sinteractive -p obtest    # use obtest partition (idle nodes)
+sinteractive -a fair_amaia_cw_video -q scale  # training account
 sinteractive -h            # full help
 ```
 
@@ -172,12 +184,38 @@ sinteractive -h            # full help
 
 ### Quick Dev Sessions
 
+**FSC:**
+
 | Command | GPUs | CPUs | Mem | Time |
 |---|---|---|---|---|
 | `sdev-gpu-x1` | 1 | 16 | 186G | 7d |
 | `sdev-gpu-x4` | 4 | 16 | 186G | 7d |
 | `sdev-gpu-x8` | 8 | 16 | 186G | 7d |
 | `sdev-cpu-x24` | 0 | 24 | 186G | 7d |
+
+**CW (dev QoS, 24h):**
+
+| Command | GPUs | CPUs | Mem | Time | QoS |
+|---|---|---|---|---|---|
+| `sdev-gpu-x1` | 1 | 14 | 220G | 24h | dev |
+| `sdev-gpu-x4` | 4 | 14 | 220G | 24h | dev |
+| `sdev-gpu-x8` | 8 | 14 | 220G | 24h | dev |
+| `sdev-cpu-x24` | 0 | 24 | 220G | 24h | dev |
+
+**CW (explore QoS, 7d):**
+
+| Command | GPUs | CPUs | Mem | Time | QoS |
+|---|---|---|---|---|---|
+| `sdev-gpu-x1-long` | 1 | 14 | 220G | 7d | explore |
+| `sdev-gpu-x4-long` | 4 | 14 | 220G | 7d | explore |
+| `sdev-gpu-x8-long` | 8 | 14 | 220G | 7d | explore |
+
+**CW (obtest partition, idle nodes):**
+
+| Command | GPUs | Partition |
+|---|---|---|
+| `sdev-obtest-x1` | 1 | obtest |
+| `sdev-obtest-x8` | 8 | obtest |
 
 ### Watch (auto-refreshing)
 
